@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import './App.css';
 import { CardList } from './components/card-list/card-list.component';
+import {Search} from './components/search/search.component';
 
 class App extends Component {
   constructor(){
@@ -10,12 +11,19 @@ class App extends Component {
       monsters:[],
       searchField:''
     };
+    //if you dont want to use arrow function then uncomment below code
+    
+    //this.handleChange=this.handleChange.bind(this);
   }
 
   componentDidMount(){
     fetch("https://jsonplaceholder.typicode.com/users")
     .then(response=>response.json())
     .then(users=> this.setState({monsters:users}))
+  }
+
+  handleChange=(e)=>{
+    this.setState({searchField:e.target.value})
   }
 
 render(){
@@ -25,7 +33,9 @@ const filteredmonters=monsters.filter(monster=>monster.name.toLowerCase().includ
 
   return (
     <div className="App">
-      <input type="search" placeholder="Search user" onChange={e=> this.setState({searchField:e.target.value})}/>
+      <h1>Monsters Rolodex</h1>  
+      <Search placeholder="search monsters" handleChange={this.handleChange}/>
+     
       <CardList monsters={filteredmonters } />
         
     
